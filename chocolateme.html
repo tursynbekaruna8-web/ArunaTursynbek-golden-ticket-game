@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Golden Ticket English Adventure</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #6b3e26, #d6a85a);
+      color: #fff;
+      text-align: center;
+      padding: 40px;
+      overflow-x: hidden;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      color: gold;
+      text-shadow: 2px 2px 5px #000;
+    }
+
+    #game-container {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 30px;
+      border-radius: 20px;
+      width: 90%;
+      max-width: 600px;
+      margin: 20px auto;
+      box-shadow: 0 0 20px rgba(0,0,0,0.4);
+    }
+
+    button {
+      background-color: #8b4513;
+      border: none;
+      color: white;
+      padding: 12px 24px;
+      margin: 10px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 1em;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background-color: #d2691e;
+      transform: scale(1.05);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    #score {
+      font-weight: bold;
+      margin-top: 20px;
+      color: #ffd700;
+    }
+
+    #timer {
+      font-size: 1.2em;
+      color: #ffeb3b;
+      margin-top: 10px;
+    }
+
+    .emoji {
+      font-size: 2em;
+    }
+  </style>
+</head>
+<body>
+  <h1>🍫 The Golden Ticket English Adventure 🍭</h1>
+
+  <div id="game-container">
+    <div id="intro">
+      <p>Welcome to Willy Wonka’s Factory! 🎩<br>
+      Answer the English questions correctly before time runs out to earn chocolate coins! 🍬</p>
+      <button onclick="startGame()">Start Game</button>
+    </div>
+
+    <div id="question-box" class="hidden">
+      <h2 id="room-title"></h2>
+      <p id="question-text"></p>
+      <div id="options"></div>
+      <p id="feedback"></p>
+      <p id="timer">⏱️ Time left: 20s</p>
+      <p id="score">Score: 0 🍫</p>
+    </div>
+
+    <div id="end-screen" class="hidden">
+      <h2>🎉 Congratulations! 🎉</h2>
+      <p>You finished the Golden Ticket Adventure!</p>
+      <p id="final-score"></p>
+      <button onclick="restartGame()">Play Again</button>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        room: "Entrance Hall – Vocabulary",
+        question: "What word best describes Willy Wonka’s personality?",
+        options: ["Boring", "Mysterious", "Lazy", "Serious"],
+        correct: 1
+      },
+      {
+        room: "Candy Garden – Grammar",
+        question: "If Charlie ____ the factory, he will become its owner.",
+        options: ["visits", "visited", "visiting", "visit"],
+        correct: 0
+      },
+      {
+        room: "Inventing Room – Tenses",
+        question: "Willy Wonka has been making chocolate for many years. Which tense is used here?",
+        options: ["Past Simple", "Present Perfect Continuous", "Future Perfect", "Present Continuous"],
+        correct: 1
+      },
+      {
+        room: "Chocolate River Room – Reading",
+        question: "Why was Augustus Gloop punished?",
+        options: [
+          "He tried to steal a candy recipe.",
+          "He fell into the chocolate river because of his greed.",
+          "He broke the elevator.",
+          "He ate the golden ticket."
+        ],
+        correct: 1
+      },
+      {
+        room: "Great Glass Elevator – Final Challenge",
+        question: "Which sentence is grammatically correct?",
+        options: [
+          "Charlie never forgets how kindness change lives.",
+          "Charlie never forgot how kindness changes lives.",
+          "Charlie never forgets how kindness changes lives.",
+          "Charlie never forgetting how kindness changes lives."
+        ],
+        correct: 2
+      }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+    let timeLeft = 20;
+    let timer;
+
+    function startGame() {
+      document.getElementById("intro").classList.add("hidden");
+      document.getElementById("question-box").classList.remove("hidden");
+      showQuestion();
+    }
+
+    function showQuestion() {
+      const q = questions[currentQuestion];
+      document.getElementById("room-title").innerText = q.room;
+      document.getElementById("question-text").innerText = q.question;
+
+      const optionsDiv = document.getElementById("options");
+      optionsDiv.innerHTML = "";
+      q.options.forEach((option, i) => {
+        const btn = document.createElement("button");
+        btn.innerText = option;
+        btn.onclick = () => checkAnswer(i);
+        optionsDiv.appendChild(btn);
+      });
+
+      document.getElementById("feedback").innerText = "";
+      resetTimer();
+    }
+
+    function resetTimer() {
+      clearInterval(timer);
+      timeLeft = 20;
+      document.getElementById("timer").innerText = `⏱️ Time left: ${timeLeft}s`;
+      timer = setInterval(() => {
+        timeLeft--;
+        document.getElementById("timer").innerText = `⏱️ Time left: ${timeLeft}s`;
+        if (timeLeft <= 0) {
+          clearInterval(timer);
+          document.getElementById("feedback").innerHTML = "⌛ Time’s up! Moving to next room...";
+          nextQuestion();
+        }
+      }, 1000);
+    }
+
+    function checkAnswer(selected) {
+      clearInterval(timer);
+      const q = questions[currentQuestion];
+      const feedback = document.getElementById("feedback");
+
+      if (selected === q.correct) {
+        score++;
+        feedback.innerHTML = "✅ Correct! You earned a chocolate coin! 🍫";
+      } else {
+        feedback.innerHTML = "❌ Oops! That’s not right!";
+      }
+
+      document.getElementById("score").innerText = `Score: ${score} 🍫`;
+      setTimeout(nextQuestion, 1500);
+    }
+
+    function nextQuestion() {
+      currentQuestion++;
+      if (currentQuestion < questions.length) {
+        showQuestion();
+      } else {
+        endGame();
+      }
+    }
+
+    function endGame() {
+      clearInterval(timer);
+      document.getElementById("question-box").classList.add("hidden");
+      document.getElementById("end-screen").classList.remove("hidden");
+      document.getElementById("final-score").innerText =
+        `Your final score: ${score} 🍫 out of ${questions.length}`;
+    }
+
+    function restartGame() {
+      currentQuestion = 0;
+      score = 0;
+      document.getElementById("end-screen").classList.add("hidden");
+      document.getElementById("question-box").classList.remove("hidden");
+      document.getElementById("score").innerText = "Score: 0 🍫";
+      document.getElementById("feedback").innerText = "";
+      showQuestion();
+    }
+  </script>
+</body>
+</html>
