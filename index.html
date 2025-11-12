@@ -1,214 +1,316 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Golden Ticket English Adventure</title>
-  <style>
-    body {
-      font-family: "Poppins", sans-serif;
-      background: linear-gradient(135deg, #6b3e26, #d6a85a);
-      color: #fff;
-      text-align: center;
-      padding: 40px;
-      overflow-x: hidden;
-    }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Golden Ticket English Game 🍫</title>
+<style>
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #6b3e26, #d6a85a);
+    color: #fff;
+    text-align: center;
+    padding: 30px;
+    margin: 0;
+  }
 
-    h1 {
-      font-size: 2.5em;
-      color: gold;
-      text-shadow: 2px 2px 5px #000;
-    }
+  h1 { font-size: 2.2rem; margin-bottom: 18px; color: gold; text-shadow: 1px 1px 4px #000; }
 
-    #game-container {
-      background: rgba(255, 255, 255, 0.1);
-      padding: 30px;
-      border-radius: 20px;
-      width: 90%;
-      max-width: 600px;
-      margin: 20px auto;
-      box-shadow: 0 0 20px rgba(0,0,0,0.4);
-    }
+  .video-wrap, .game-wrap {
+    max-width: 760px;
+    margin: 0 auto 18px;
+  }
 
-    button {
-      background-color: #8b4513;
-      border: none;
-      color: white;
-      padding: 12px 24px;
-      margin: 10px;
-      border-radius: 12px;
-      cursor: pointer;
-      font-size: 1em;
-      transition: 0.3s;
-    }
+  .video-frame {
+    width: 100%;
+    height: 360px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+    background: #000;
+  }
 
-    button:hover {
-      background-color: #d2691e;
-      transform: scale(1.05);
-    }
+  .starter {
+    background: rgba(255,255,255,0.08);
+    padding: 18px;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+  }
 
-    .hidden {
-      display: none;
-    }
+  .btn {
+    background-color: #8b4513;
+    color: #fff;
+    border: none;
+    padding: 12px 22px;
+    border-radius: 12px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 12px;
+  }
+  .btn:hover { background-color: #a05524; transform: translateY(-2px); }
 
-    #score {
-      font-weight: bold;
-      margin-top: 20px;
-      color: #ffd700;
-    }
+  .game-container {
+    background: rgba(255,255,255,0.08);
+    padding: 22px;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+  }
 
-    #timer {
-      font-weight: bold;
-      color: #fffae3;
-      margin-bottom: 10px;
-    }
+  #question-number { font-weight: 600; color: #ffeb99; }
+  #question { font-size: 1.1rem; margin: 14px 0; }
 
-  </style>
+  .answers { display:flex; flex-direction:column; gap:10px; align-items:center; }
+  .answer-btn {
+    background:#ffdf9b; color:#4b2e05; border:none; padding:10px 18px; border-radius:10px; cursor:pointer; width:90%;
+    max-width:520px; font-size:1rem;
+  }
+  .answer-btn:disabled { opacity:0.6; cursor:default; }
+
+  #timer { margin-top:10px; font-weight:700; color:#fff6c9; }
+  #score { font-weight:700; color:#ffd700; margin-top:12px; }
+
+  .coin {
+    position: absolute;
+    font-size: 2rem;
+    pointer-events: none;
+    animation: floatCoin 900ms ease-out forwards;
+  }
+  @keyframes floatCoin {
+    0% { transform: translateY(0) scale(1); opacity:1; }
+    100% { transform: translateY(-70px) scale(0.9); opacity:0; }
+  }
+
+  @media (max-width:600px){
+    .video-frame { height: 210px; }
+    .answer-btn { font-size: 0.95rem; }
+  }
+</style>
 </head>
 <body>
   <h1>🍫 The Golden Ticket English Adventure 🍭</h1>
 
-  <div id="game-container">
-    <div id="intro">
-      <p>Welcome to Willy Wonka’s Factory! 🎩<br>
-      Answer the English questions correctly to move through the factory and earn chocolate coins! 🍬</p>
-      <button onclick="startGame()">Start Game</button>
+  <!-- VIDEO SECTION (no autoplay) -->
+  <div class="video-wrap starter" id="video-section">
+    <div class="video-frame">
+      <!-- YouTube iframe without autoplay -->
+      <iframe id="intro-video"
+        width="100%" height="100%"
+        src="https://www.youtube.com/embed/wcdBCanllNA"
+        title="Intro Video"
+        frameborder="0"
+        allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen></iframe>
     </div>
 
-    <div id="question-box" class="hidden">
-      <h2 id="room-title"></h2>
-      <p id="timer"></p>
-      <p id="question-text"></p>
-      <div id="options"></div>
-      <p id="feedback"></p>
-      <p id="score">Score: 0 🍫</p>
-    </div>
-
-    <div id="end-screen" class="hidden">
-      <h2>🎉 Congratulations! 🎉</h2>
-      <p>You finished the Golden Ticket Adventure!</p>
-      <p id="final-score"></p>
-      <button onclick="restartGame()">Play Again</button>
+    <div style="margin-top:12px;">
+      <button class="btn" id="start-btn-under-video">Start Game</button>
+      <p style="color:#fff6c9; margin-top:8px; font-size:0.95rem;">
+        You can watch the video or press <b>Start Game</b> to begin immediately.
+      </p>
     </div>
   </div>
 
-  <script>
-    const questions = [
-      { room: "Entrance Hall", question: "Willy Wonka is a famous ____.", options: ["musician", "inventor", "doctor", "painter"], correct: 1 },
-      { room: "Candy Garden", question: "If Charlie ____ the ticket, he will visit the factory.", options: ["find", "finding", "found", "finds"], correct: 3 },
-      { room: "Chocolate River", question: "The Chocolate River is made of:", options: ["milk", "caramel", "real chocolate", "juice"], correct: 2 },
-      { room: "Grammar Room", question: "Choose the correct sentence:", options: ["Chocolate he loves very much.", "He loves chocolate very much.", "He very chocolate loves.", "Loves he chocolate."], correct: 1 },
-      { room: "Vocabulary Room", question: "Synonym of 'happy' is:", options: ["sad", "joyful", "angry", "hungry"], correct: 1 },
-      { room: "Inventing Room", question: "The past tense of 'eat' is ____.", options: ["eated", "ate", "eaten", "eats"], correct: 1 },
-      { room: "Candy Lab", question: "Which word means 'opposite of hot'?", options: ["cold", "cool", "warm", "fire"], correct: 0 },
-      { room: "Oompa-Loompa Room", question: "What are Oompa-Loompas?", options: ["Machines", "Workers", "Candies", "Animals"], correct: 1 },
-      { room: "Reading Room", question: "Charlie found the ticket in a:", options: ["shop", "bar of chocolate", "mailbox", "newspaper"], correct: 1 },
-      { room: "Spelling Room", question: "Choose the correct spelling:", options: ["choclate", "chocolate", "chocolatte", "chocelate"], correct: 1 },
-      { room: "Grammar Room 2", question: "They ____ watching the movie now.", options: ["is", "are", "am", "be"], correct: 1 },
-      { room: "Grammar Room 3", question: "He ____ to school every day.", options: ["go", "goes", "gone", "going"], correct: 1 },
-      { room: "Grammar Room 4", question: "I ____ seen that film.", options: ["has", "had", "have", "having"], correct: 2 },
-      { room: "Reading Room 2", question: "Charlie lives with his ____.", options: ["friends", "grandparents", "teachers", "pets"], correct: 1 },
-      { room: "Vocabulary 2", question: "Opposite of 'fast' is ____.", options: ["slow", "quick", "speed", "run"], correct: 0 },
-      { room: "Vocabulary 3", question: "Which word is a noun?", options: ["run", "beautiful", "book", "quickly"], correct: 2 },
-      { room: "Grammar Room 5", question: "Choose the correct article: ___ apple.", options: ["a", "an", "the", "no article"], correct: 1 },
-      { room: "Reading Room 3", question: "Willy Wonka owns a ____.", options: ["toy shop", "chocolate factory", "museum", "bank"], correct: 1 },
-      { room: "Candy Quiz", question: "Which candy is NOT real?", options: ["Everlasting Gobstopper", "Chocolate Frog", "Rainbow Sugar Drop", "Toffee Balloon"], correct: 3 },
-      { room: "Vocabulary 4", question: "‘Sweet’ is the opposite of:", options: ["bitter", "soft", "sour", "cold"], correct: 0 },
-      { room: "Grammar Room 6", question: "Which is correct?", options: ["She don’t like chocolate.", "She doesn’t like chocolate.", "She not likes chocolate.", "She didn’t likes chocolate."], correct: 1 },
-      { room: "Vocabulary 5", question: "Meaning of 'factory' is:", options: ["place where things are made", "place where food is eaten", "school", "garden"], correct: 0 },
-      { room: "Reading 4", question: "Who got stuck in the chocolate pipe?", options: ["Charlie", "Augustus Gloop", "Veruca Salt", "Mike Teavee"], correct: 1 },
-      { room: "Spelling 2", question: "Choose correct spelling:", options: ["becaus", "because", "becouse", "becose"], correct: 1 },
-      { room: "Grammar 7", question: "He ____ his homework already.", options: ["did", "has done", "do", "done"], correct: 1 },
-      { room: "Vocabulary 6", question: "Synonym of 'clever' is:", options: ["smart", "silly", "lazy", "weak"], correct: 0 },
-      { room: "Grammar 8", question: "There ____ many people in the room.", options: ["is", "are", "was", "be"], correct: 1 },
-      { room: "Final Room", question: "Charlie won ____.", options: ["money", "a golden ticket", "the chocolate factory", "a car"], correct: 2 },
-      { room: "Bonus Question", question: "What is the plural of ‘child’?", options: ["childs", "children", "childes", "childer"], correct: 1 },
-      { room: "Final Challenge", question: "If I were you, I ____ go.", options: ["will", "would", "can", "am"], correct: 1 }
-    ];
+  <!-- GAME SECTION (hidden until Start Game) -->
+  <div class="game-wrap" id="game-section" style="display:none;">
+    <div class="game-container" id="game-container">
+      <p id="question-number">Question 1 of 30</p>
+      <p id="question"></p>
+      <div class="answers" id="answers"></div>
+      <p id="timer"></p>
+      <button class="btn" id="next-btn" style="display:none;">Next Question</button>
+      <p id="score" style="display:none;"></p>
+    </div>
+  </div>
 
-    let currentQuestion = 0;
-    let score = 0;
-    let timeLeft = 20;
-    let timer;
+  <!-- OPTIONAL: background music (add your audio URL to src attribute) -->
+  <!-- Example: <audio id="bg-music" src="https://example.com/your-music.mp3"></audio> -->
+  <audio id="bg-music" preload="none"></audio>
 
-    function startGame() {
-      document.getElementById("intro").classList.add("hidden");
-      document.getElementById("question-box").classList.remove("hidden");
-      score = 0;
-      currentQuestion = 0;
-      showQuestion();
-    }
+<script>
+/* ========== QUESTIONS (30) ========== */
+const questions = [
+  { q: "Willy Wonka is famous for?", a: ["Chocolate","Cars","Books"], correct: "Chocolate" },
+  { q: "Who finds the first golden ticket?", a: ["Veruca Salt","Augustus Gloop","Charlie Bucket"], correct: "Augustus Gloop" },
+  { q: "Color of Charlie’s Golden Ticket?", a: ["Gold","Silver","Bronze"], correct: "Gold" },
+  { q: "Willy Wonka’s factory makes?", a: ["Toys","Chocolate","Books"], correct: "Chocolate" },
+  { q: "How many children visit the factory?", a: ["3","4","5"], correct: "5" },
+  { q: "Who turns into a blueberry?", a: ["Veruca Salt","Violet Beauregarde","Mike Teavee"], correct: "Violet Beauregarde" },
+  { q: "Name of Charlie’s grandpa?", a: ["Grandpa Joe","Grandpa Bob","Grandpa John"], correct: "Grandpa Joe" },
+  { q: "What is the prize at the end?", a: ["A car","The chocolate factory","A bag of sweets"], correct: "The chocolate factory" },
+  { q: "Where does Willy Wonka live?", a: ["A city","A chocolate factory","A school"], correct: "A chocolate factory" },
+  { q: "Color of Willy Wonka’s hat?", a: ["Purple","Brown","Black"], correct: "Brown" },
+  { q: "Synonym of 'happy'?", a: ["Sad","Joyful","Hungry"], correct: "Joyful" },
+  { q: "Past tense of 'eat'?", a: ["Eated","Ate","Eaten"], correct: "Ate" },
+  { q: "Opposite of 'hot'?", a: ["Cold","Warm","Fire"], correct: "Cold" },
+  { q: "Oompa-Loompas are?", a: ["Machines","Workers","Candies"], correct: "Workers" },
+  { q: "Charlie found the ticket in a?", a: ["Shop","Chocolate bar","Mailbox"], correct: "Chocolate bar" },
+  { q: "Choose correct spelling:", a: ["Choclate","Chocolate","Chocolatte"], correct: "Chocolate" },
+  { q: "They ____ watching the movie now.", a: ["is","are","am"], correct: "are" },
+  { q: "He ____ to school every day.", a: ["go","goes","gone"], correct: "goes" },
+  { q: "I ____ seen that film.", a: ["has","have","had"], correct: "have" },
+  { q: "Charlie lives with?", a: ["Friends","Grandparents","Teachers"], correct: "Grandparents" },
+  { q: "Opposite of 'fast'?", a: ["Slow","Quick","Run"], correct: "Slow" },
+  { q: "Which word is a noun?", a: ["Run","Book","Quickly"], correct: "Book" },
+  { q: "Choose correct article: ___ apple", a: ["A","An","The"], correct: "An" },
+  { q: "Willy Wonka owns?", a: ["Toy shop","Chocolate factory","Bank"], correct: "Chocolate factory" },
+  { q: "Which candy is NOT real?", a: ["Everlasting Gobstopper","Chocolate Frog","Toffee Balloon"], correct: "Toffee Balloon" },
+  { q: "‘Sweet’ is opposite of?", a: ["Bitter","Sour","Soft"], correct: "Bitter" },
+  { q: "Which is correct?", a: ["She don't like chocolate","She doesn't like chocolate","She not likes chocolate"], correct: "She doesn't like chocolate" },
+  { q: "Meaning of 'factory'?", a: ["Place where things are made","School","Garden"], correct: "Place where things are made" },
+  { q: "Who got stuck in the chocolate pipe?", a: ["Charlie","Augustus Gloop","Veruca Salt"], correct: "Augustus Gloop" },
+  { q: "Plural of 'child'?", a: ["Childs","Children","Childes"], correct: "Children" }
+];
 
-    function showQuestion() {
-      const q = questions[currentQuestion];
-      document.getElementById("room-title").innerText = q.room;
-      document.getElementById("question-text").innerText = q.question;
-      document.getElementById("feedback").innerText = "";
+/* ========== STATE ========== */
+let currentQuestion = 0;
+let score = 0;
+let timer = null;
+let timeLeft = 20;
+const TOTAL = questions.length;
 
-      const optionsDiv = document.getElementById("options");
-      optionsDiv.innerHTML = "";
-      q.options.forEach((option, i) => {
-        const btn = document.createElement("button");
-        btn.innerText = option;
-        btn.onclick = () => checkAnswer(i);
-        optionsDiv.appendChild(btn);
-      });
+/* ========== ELEMENTS ========== */
+const videoSection = document.getElementById('video-section');
+const startBtnUnderVideo = document.getElementById('start-btn-under-video');
+const gameSection = document.getElementById('game-section');
+const questionNumberEl = document.getElementById('question-number');
+const questionEl = document.getElementById('question');
+const answersEl = document.getElementById('answers');
+const timerEl = document.getElementById('timer');
+const nextBtn = document.getElementById('next-btn');
+const scoreEl = document.getElementById('score');
+const gameContainer = document.getElementById('game-container');
+const bgMusic = document.getElementById('bg-music');
 
-      timeLeft = 20;
-      document.getElementById("timer").innerText = `⏰ Time left: ${timeLeft}s`;
+/* ========== OPTIONAL: add background music URL HERE (or leave empty) ========== */
+/* Example: bgMusic.src = 'https://example.com/your-music.mp3'; */
+bgMusic.src = ""; // <-- if you have a music URL, paste it between the quotes
+
+/* ========== START GAME (from button under video) ========== */
+startBtnUnderVideo.addEventListener('click', () => {
+  // Hide video block and show game
+  videoSection.style.display = 'none';
+  gameSection.style.display = 'block';
+  // Start background music ONLY if source provided and user clicked (browsers allow play after click)
+  if (bgMusic.src) {
+    bgMusic.currentTime = 0;
+    bgMusic.play().catch(()=>{/* if blocked, ignore */});
+  }
+  startGame();
+});
+
+/* ========== GAME FUNCTIONS ========== */
+function startGame(){
+  score = 0;
+  currentQuestion = 0;
+  scoreEl.style.display = 'none';
+  showQuestion();
+}
+
+function showQuestion(){
+  clearInterval(timer);
+  timeLeft = 20;
+  const q = questions[currentQuestion];
+  questionNumberEl.textContent = `Question ${currentQuestion + 1} of ${TOTAL}`;
+  questionEl.textContent = q.q;
+  answersEl.innerHTML = '';
+  q.a.forEach(opt => {
+    const b = document.createElement('button');
+    b.className = 'answer-btn';
+    b.textContent = opt;
+    b.onclick = () => handleAnswer(b, opt);
+    answersEl.appendChild(b);
+  });
+  nextBtn.style.display = 'none';
+  timerEl.textContent = `⏰ Time left: ${timeLeft}s`;
+  timer = setInterval(() => {
+    timeLeft--;
+    timerEl.textContent = `⏰ Time left: ${timeLeft}s`;
+    if (timeLeft <= 0) {
       clearInterval(timer);
-      timer = setInterval(updateTimer, 1000);
+      disableAnswers();
+      nextBtn.style.display = 'inline-block';
+      // auto move allowed only after click Next (so they can see correct answer if you want)
+      alert("⏳ Time's up!");
     }
+  }, 1000);
+}
 
-    function updateTimer() {
-      timeLeft--;
-      document.getElementById("timer").innerText = `⏰ Time left: ${timeLeft}s`;
-      if (timeLeft <= 0) {
-        clearInterval(timer);
-        currentQuestion++;
-        if (currentQuestion < questions.length) showQuestion();
-        else endGame();
-      }
-    }
+/* handle when an answer button is clicked */
+function handleAnswer(btn, chosen){
+  clearInterval(timer);
+  disableAnswers();
+  const correct = questions[currentQuestion].correct;
+  if (chosen === correct){
+    score++;
+    showCoin();
+    setTimeout(()=> alert("✅ Correct!"), 100);
+  } else {
+    setTimeout(()=> alert(`❌ Wrong! Correct: ${correct}`), 100);
+  }
+  nextBtn.style.display = 'inline-block';
+}
 
-    function checkAnswer(selected) {
-      const q = questions[currentQuestion];
-      const feedback = document.getElementById("feedback");
-      if (selected === q.correct) {
-        score++;
-        feedback.innerHTML = "✅ Correct! You earned a chocolate coin! 🍫";
-      } else {
-        feedback.innerHTML = "❌ Oops! Wrong answer!";
-      }
+/* disable answer buttons */
+function disableAnswers(){
+  Array.from(answersEl.children).forEach(b => b.disabled = true);
+}
 
-      document.getElementById("score").innerText = `Score: ${score} 🍫`;
-      clearInterval(timer);
-      currentQuestion++;
-      if (currentQuestion < questions.length) {
-        setTimeout(showQuestion, 1500);
-      } else {
-        setTimeout(endGame, 1500);
-      }
-    }
+/* Next question click */
+nextBtn.addEventListener('click', () => {
+  currentQuestion++;
+  if (currentQuestion < TOTAL){
+    showQuestion();
+  } else {
+    endGame();
+  }
+});
 
-    function endGame() {
-      document.getElementById("question-box").classList.add("hidden");
-      document.getElementById("end-screen").classList.remove("hidden");
-      document.getElementById("final-score").innerText =
-        `Your final score: ${score} 🍫 out of ${questions.length}`;
-    }
+/* show coin animation */
+function showCoin(){
+  const coin = document.createElement('div');
+  coin.className = 'coin';
+  coin.textContent = '🍫';
+  // place randomly inside game container (within width)
+  const rect = gameContainer.getBoundingClientRect();
+  const leftPct = Math.random() * 70 + 10; // 10%..80%
+  coin.style.left = leftPct + '%';
+  coin.style.top = (rect.height - 50) + 'px';
+  gameContainer.appendChild(coin);
+  setTimeout(()=> coin.remove(), 900);
+}
 
-    function restartGame() {
-      currentQuestion = 0;
-      score = 0;
-      document.getElementById("end-screen").classList.add("hidden");
-      document.getElementById("question-box").classList.remove("hidden");
-      document.getElementById("score").innerText = "Score: 0 🍫";
-      document.getElementById("feedback").innerText = "";
-      showQuestion();
-    }
-  </script>
+/* end game: hide controls, show score and completion message; no replay */
+function endGame(){
+  clearInterval(timer);
+  questionEl.textContent = '';
+  answersEl.innerHTML = '';
+  timerEl.textContent = '';
+  nextBtn.style.display = 'none';
+  scoreEl.textContent = `🎉 You got ${score} out of ${TOTAL}!`;
+  scoreEl.style.display = 'block';
+
+  // stop music if playing
+  if (bgMusic && !bgMusic.paused) {
+    try { bgMusic.pause(); bgMusic.currentTime = 0; } catch(e){}
+  }
+
+  // show final message and permanently remove start/video section
+  const msg = document.createElement('p');
+  msg.style.marginTop = '12px';
+  msg.style.fontWeight = '700';
+  msg.style.color = '#fff6c9';
+  msg.textContent = '✅ You have completed the game! Thank you for playing!';
+  gameContainer.appendChild(msg);
+
+  // ensure video section is hidden and cannot restart
+  if (videoSection) videoSection.remove();
+  // remove any start controls (none remain), ensure no replay
+}
+
+/* Prevent page from offering play-again buttons: no restart provided */
+</script>
 </body>
 </html>
+
 
 
