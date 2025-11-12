@@ -92,7 +92,6 @@
   <!-- VIDEO SECTION (no autoplay) -->
   <div class="video-wrap starter" id="video-section">
     <div class="video-frame">
-      <!-- YouTube iframe without autoplay -->
       <iframe id="intro-video"
         width="100%" height="100%"
         src="https://www.youtube.com/embed/wcdBCanllNA"
@@ -122,12 +121,10 @@
     </div>
   </div>
 
-  <!-- OPTIONAL: background music (add your audio URL to src attribute) -->
-  <!-- Example: <audio id="bg-music" src="https://example.com/your-music.mp3"></audio> -->
+  <!-- Background music -->
   <audio id="bg-music" preload="none"></audio>
 
 <script>
-/* ========== QUESTIONS (30) ========== */
 const questions = [
   { q: "Willy Wonka is famous for?", a: ["Chocolate","Cars","Books"], correct: "Chocolate" },
   { q: "Who finds the first golden ticket?", a: ["Veruca Salt","Augustus Gloop","Charlie Bucket"], correct: "Augustus Gloop" },
@@ -161,14 +158,12 @@ const questions = [
   { q: "Plural of 'child'?", a: ["Childs","Children","Childes"], correct: "Children" }
 ];
 
-/* ========== STATE ========== */
 let currentQuestion = 0;
 let score = 0;
 let timer = null;
-let timeLeft = 20;
+let timeLeft = 30;
 const TOTAL = questions.length;
 
-/* ========== ELEMENTS ========== */
 const videoSection = document.getElementById('video-section');
 const startBtnUnderVideo = document.getElementById('start-btn-under-video');
 const gameSection = document.getElementById('game-section');
@@ -181,24 +176,15 @@ const scoreEl = document.getElementById('score');
 const gameContainer = document.getElementById('game-container');
 const bgMusic = document.getElementById('bg-music');
 
-/* ========== OPTIONAL: add background music URL HERE (or leave empty) ========== */
-/* Example: bgMusic.src = 'https://example.com/your-music.mp3'; */
-bgMusic.src = ""; // <-- if you have a music URL, paste it between the quotes
+bgMusic.src = ""; // вставь сюда ссылку на музыку, если хочешь
 
-/* ========== START GAME (from button under video) ========== */
 startBtnUnderVideo.addEventListener('click', () => {
-  // Hide video block and show game
   videoSection.style.display = 'none';
   gameSection.style.display = 'block';
-  // Start background music ONLY if source provided and user clicked (browsers allow play after click)
-  if (bgMusic.src) {
-    bgMusic.currentTime = 0;
-    bgMusic.play().catch(()=>{/* if blocked, ignore */});
-  }
+  if (bgMusic.src) { bgMusic.currentTime=0; bgMusic.play().catch(()=>{}); }
   startGame();
 });
 
-/* ========== GAME FUNCTIONS ========== */
 function startGame(){
   score = 0;
   currentQuestion = 0;
@@ -208,7 +194,7 @@ function startGame(){
 
 function showQuestion(){
   clearInterval(timer);
-  timeLeft = 20;
+  timeLeft = 30; // ⏳ теперь 30 секунд на каждый вопрос
   const q = questions[currentQuestion];
   questionNumberEl.textContent = `Question ${currentQuestion + 1} of ${TOTAL}`;
   questionEl.textContent = q.q;
@@ -229,13 +215,11 @@ function showQuestion(){
       clearInterval(timer);
       disableAnswers();
       nextBtn.style.display = 'inline-block';
-      // auto move allowed only after click Next (so they can see correct answer if you want)
       alert("⏳ Time's up!");
     }
   }, 1000);
 }
 
-/* handle when an answer button is clicked */
 function handleAnswer(btn, chosen){
   clearInterval(timer);
   disableAnswers();
@@ -250,12 +234,10 @@ function handleAnswer(btn, chosen){
   nextBtn.style.display = 'inline-block';
 }
 
-/* disable answer buttons */
 function disableAnswers(){
   Array.from(answersEl.children).forEach(b => b.disabled = true);
 }
 
-/* Next question click */
 nextBtn.addEventListener('click', () => {
   currentQuestion++;
   if (currentQuestion < TOTAL){
@@ -265,21 +247,18 @@ nextBtn.addEventListener('click', () => {
   }
 });
 
-/* show coin animation */
 function showCoin(){
   const coin = document.createElement('div');
   coin.className = 'coin';
   coin.textContent = '🍫';
-  // place randomly inside game container (within width)
   const rect = gameContainer.getBoundingClientRect();
-  const leftPct = Math.random() * 70 + 10; // 10%..80%
+  const leftPct = Math.random() * 70 + 10;
   coin.style.left = leftPct + '%';
   coin.style.top = (rect.height - 50) + 'px';
   gameContainer.appendChild(coin);
   setTimeout(()=> coin.remove(), 900);
 }
 
-/* end game: hide controls, show score and completion message; no replay */
 function endGame(){
   clearInterval(timer);
   questionEl.textContent = '';
@@ -289,12 +268,10 @@ function endGame(){
   scoreEl.textContent = `🎉 You got ${score} out of ${TOTAL}!`;
   scoreEl.style.display = 'block';
 
-  // stop music if playing
   if (bgMusic && !bgMusic.paused) {
     try { bgMusic.pause(); bgMusic.currentTime = 0; } catch(e){}
   }
 
-  // show final message and permanently remove start/video section
   const msg = document.createElement('p');
   msg.style.marginTop = '12px';
   msg.style.fontWeight = '700';
@@ -302,15 +279,12 @@ function endGame(){
   msg.textContent = '✅ You have completed the game! Thank you for playing!';
   gameContainer.appendChild(msg);
 
-  // ensure video section is hidden and cannot restart
   if (videoSection) videoSection.remove();
-  // remove any start controls (none remain), ensure no replay
 }
-
-/* Prevent page from offering play-again buttons: no restart provided */
 </script>
 </body>
 </html>
+
 
 
 
