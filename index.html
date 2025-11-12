@@ -74,7 +74,6 @@
     0% { transform: translateY(0) scale(1); opacity:1; }
     100% { transform: translateY(-70px) scale(0.9); opacity:0; }
   }
-  #sound-btn { margin-top: 12px; background:#4b2e05; color:#fff; }
   @media (max-width:600px){
     .video-frame { height: 210px; }
     .answer-btn { font-size: 0.95rem; }
@@ -107,7 +106,6 @@
 <!-- GAME SECTION -->
 <div class="game-wrap" id="game-section" style="display:none;">
   <div class="game-container" id="game-container">
-    <button class="btn" id="sound-btn">Sound On / Off</button>
     <p id="question-number">Question 1 of 30</p>
     <p id="question"></p>
     <div class="answers" id="answers"></div>
@@ -116,11 +114,6 @@
     <p id="score" style="display:none;"></p>
   </div>
 </div>
-
-<audio id="bg-music" preload="auto">
-  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-  Your browser does not support the audio element.
-</audio>
 
 <script>
 /* QUESTIONS ARRAY (30) */
@@ -157,48 +150,25 @@ const questions = [
   { q: "Plural of 'child'?", a: ["Childs","Children","Childes"], correct: "Children" }
 ];
 
-let currentQuestion = 0;
-let score = 0;
-let timer = null;
-let timeLeft = 20;
+let currentQuestion=0;
+let score=0;
+let timer=null;
+const TOTAL=questions.length;
 
-const TOTAL = questions.length;
-const videoSection = document.getElementById('video-section');
-const startBtn = document.getElementById('start-btn-under-video');
-const gameSection = document.getElementById('game-section');
-const questionNumberEl = document.getElementById('question-number');
-const questionEl = document.getElementById('question');
-const answersEl = document.getElementById('answers');
-const timerEl = document.getElementById('timer');
-const nextBtn = document.getElementById('next-btn');
-const scoreEl = document.getElementById('score');
-const gameContainer = document.getElementById('game-container');
-const bgMusic = document.getElementById('bg-music');
-const soundBtn = document.getElementById('sound-btn');
+const videoSection=document.getElementById('video-section');
+const startBtn=document.getElementById('start-btn-under-video');
+const gameSection=document.getElementById('game-section');
+const questionNumberEl=document.getElementById('question-number');
+const questionEl=document.getElementById('question');
+const answersEl=document.getElementById('answers');
+const timerEl=document.getElementById('timer');
+const nextBtn=document.getElementById('next-btn');
+const scoreEl=document.getElementById('score');
+const gameContainer=document.getElementById('game-container');
 
-let musicPlaying = false;
-
-/* SOUND BUTTON */
-soundBtn.addEventListener('click', ()=>{
-  if(musicPlaying){
-    bgMusic.pause();
-    musicPlaying = false;
-    soundBtn.textContent = "Sound On";
-  }else{
-    bgMusic.play();
-    musicPlaying = true;
-    soundBtn.textContent = "Sound Off";
-  }
-});
-
-/* START GAME BUTTON */
-startBtn.addEventListener('click', ()=>{
+startBtn.addEventListener('click',()=>{
   videoSection.style.display='none';
   gameSection.style.display='block';
-  bgMusic.currentTime = 0;
-  bgMusic.play();
-  musicPlaying = true;
-  soundBtn.textContent="Sound Off";
   startGame();
 });
 
@@ -210,16 +180,16 @@ function startGame(){
 
 function showQuestion(){
   clearInterval(timer);
-  timeLeft = 20;
-  const q = questions[currentQuestion];
-  questionNumberEl.textContent = `Question ${currentQuestion+1} of ${TOTAL}`;
-  questionEl.textContent = q.q;
+  let timeLeft=20;
+  const q=questions[currentQuestion];
+  questionNumberEl.textContent=`Question ${currentQuestion+1} of ${TOTAL}`;
+  questionEl.textContent=q.q;
   answersEl.innerHTML='';
   q.a.forEach(opt=>{
-    const b = document.createElement('button');
+    const b=document.createElement('button');
     b.className='answer-btn';
-    b.textContent = opt;
-    b.onclick = ()=>handleAnswer(b,opt);
+    b.textContent=opt;
+    b.onclick=()=>handleAnswer(b,opt);
     answersEl.appendChild(b);
   });
   nextBtn.style.display='none';
@@ -236,10 +206,10 @@ function showQuestion(){
   },1000);
 }
 
-function handleAnswer(btn, chosen){
+function handleAnswer(btn,chosen){
   clearInterval(timer);
   disableAnswers();
-  const correct = questions[currentQuestion].correct;
+  const correct=questions[currentQuestion].correct;
   if(chosen===correct){
     score++;
     showCoin();
@@ -251,7 +221,8 @@ function handleAnswer(btn, chosen){
 }
 
 function disableAnswers(){ Array.from(answersEl.children).forEach(b=>b.disabled=true); }
-nextBtn.addEventListener('click', ()=>{
+
+nextBtn.addEventListener('click',()=>{
   currentQuestion++;
   if(currentQuestion<TOTAL) showQuestion();
   else endGame();
@@ -261,10 +232,10 @@ function showCoin(){
   const coin=document.createElement('div');
   coin.className='coin';
   coin.textContent='🍫';
-  const rect = gameContainer.getBoundingClientRect();
-  const leftPct = Math.random()*70+10;
-  coin.style.left = leftPct+'%';
-  coin.style.top = (rect.height-50)+'px';
+  const rect=gameContainer.getBoundingClientRect();
+  const leftPct=Math.random()*70+10;
+  coin.style.left=leftPct+'%';
+  coin.style.top=(rect.height-50)+'px';
   gameContainer.appendChild(coin);
   setTimeout(()=>coin.remove(),900);
 }
@@ -277,18 +248,18 @@ function endGame(){
   nextBtn.style.display='none';
   scoreEl.textContent=`🎉 You got ${score} out of ${TOTAL}!`;
   scoreEl.style.display='block';
-  const msg = document.createElement('p');
+  const msg=document.createElement('p');
   msg.style.marginTop='12px';
   msg.style.fontWeight='700';
   msg.style.color='#fff6c9';
   msg.textContent='✅ You have completed the game! Thank you for playing!';
   gameContainer.appendChild(msg);
-  if(bgMusic && !bgMusic.paused){ bgMusic.pause(); bgMusic.currentTime=0; }
   if(videoSection) videoSection.remove();
 }
 </script>
 </body>
 </html>
+
 
 
 
