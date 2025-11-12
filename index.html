@@ -5,51 +5,83 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Golden Ticket English Game 🍫</title>
 <style>
-body {
-  font-family: 'Poppins', sans-serif;
-  background: linear-gradient(135deg, #6b3e26, #d6a85a);
-  color: #fff;
-  text-align: center;
-  padding: 30px;
-  margin: 0;
-}
-
-h1 { font-size: 2.2rem; margin-bottom: 18px; color: gold; text-shadow: 1px 1px 4px #000; }
-
-.video-wrap, .game-wrap { max-width: 760px; margin: 0 auto 18px; }
-
-.video-frame { width: 100%; height: 420px; border-radius: 10px; overflow: hidden; box-shadow: 0 6px 20px rgba(0,0,0,0.4); background: #000; }
-
-.starter { background: rgba(255,255,255,0.08); padding: 18px; border-radius: 12px; box-shadow: 0 6px 18px rgba(0,0,0,0.35); }
-
-.btn { background-color: #8b4513; color: #fff; border: none; padding: 12px 22px; border-radius: 12px; font-size: 1rem; cursor: pointer; margin-top: 12px; }
-.btn:hover { background-color: #a05524; transform: translateY(-2px); }
-
-.game-container { background: rgba(255,255,255,0.08); padding: 22px; border-radius: 12px; box-shadow: 0 6px 18px rgba(0,0,0,0.35); }
-
-#question-number { font-weight: 600; color: #ffeb99; }
-#question { font-size: 1.1rem; margin: 14px 0; }
-
-.answers { display:flex; flex-direction:column; gap:10px; align-items:center; }
-.answer-btn { background:#ffdf9b; color:#4b2e05; border:none; padding:10px 18px; border-radius:10px; cursor:pointer; width:90%; max-width:520px; font-size:1rem; }
-.answer-btn:disabled { opacity:0.6; cursor:default; }
-
-#timer { margin-top:10px; font-weight:700; color:#fff6c9; }
-#score { font-weight:700; color:#ffd700; margin-top:12px; }
-
-.coin { position: absolute; font-size: 2rem; pointer-events: none; animation: floatCoin 900ms ease-out forwards; }
-@keyframes floatCoin { 0% { transform: translateY(0) scale(1); opacity:1; } 100% { transform: translateY(-70px) scale(0.9); opacity:0; } }
-
-#sound-btn { margin-top: 10px; }
-
-@media (max-width:600px){
-  .video-frame { height: 240px; }
-  .answer-btn { font-size: 0.95rem; }
-}
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #6b3e26, #d6a85a);
+    color: #fff;
+    text-align: center;
+    padding: 30px;
+    margin: 0;
+  }
+  h1 {
+    font-size: 2.2rem;
+    margin-bottom: 18px;
+    color: gold;
+    text-shadow: 1px 1px 4px #000;
+  }
+  .video-wrap, .game-wrap {
+    max-width: 760px;
+    margin: 0 auto 18px;
+  }
+  .video-frame {
+    width: 100%;
+    height: 360px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+    background: #000;
+  }
+  .starter {
+    background: rgba(255,255,255,0.08);
+    padding: 18px;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+  }
+  .btn {
+    background-color: #8b4513;
+    color: #fff;
+    border: none;
+    padding: 12px 22px;
+    border-radius: 12px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 12px;
+  }
+  .btn:hover { background-color: #a05524; transform: translateY(-2px); }
+  .game-container {
+    background: rgba(255,255,255,0.08);
+    padding: 22px;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+  }
+  #question-number { font-weight: 600; color: #ffeb99; }
+  #question { font-size: 1.1rem; margin: 14px 0; }
+  .answers { display:flex; flex-direction:column; gap:10px; align-items:center; }
+  .answer-btn {
+    background:#ffdf9b; color:#4b2e05; border:none; padding:10px 18px; border-radius:10px; cursor:pointer; width:90%;
+    max-width:520px; font-size:1rem;
+  }
+  .answer-btn:disabled { opacity:0.6; cursor:default; }
+  #timer { margin-top:10px; font-weight:700; color:#fff6c9; }
+  #score { font-weight:700; color:#ffd700; margin-top:12px; }
+  .coin {
+    position: absolute;
+    font-size: 2rem;
+    pointer-events: none;
+    animation: floatCoin 900ms ease-out forwards;
+  }
+  @keyframes floatCoin {
+    0% { transform: translateY(0) scale(1); opacity:1; }
+    100% { transform: translateY(-70px) scale(0.9); opacity:0; }
+  }
+  #sound-btn { margin-top: 12px; background:#4b2e05; color:#fff; }
+  @media (max-width:600px){
+    .video-frame { height: 210px; }
+    .answer-btn { font-size: 0.95rem; }
+  }
 </style>
 </head>
 <body>
-
 <h1>🍫 The Golden Ticket English Adventure 🍭</h1>
 
 <!-- VIDEO SECTION -->
@@ -57,16 +89,15 @@ h1 { font-size: 2.2rem; margin-bottom: 18px; color: gold; text-shadow: 1px 1px 4
   <div class="video-frame">
     <iframe id="intro-video"
       width="100%" height="100%"
-      src="https://www.youtube.com/embed/wcdBCanllNA"
+      src="https://www.youtube.com/embed/wcdBCanllNA?mute=1"
       title="Intro Video"
       frameborder="0"
       allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-      allowfullscreen></iframe>
+      allowfullscreen>
+    </iframe>
   </div>
-
   <div style="margin-top:12px;">
     <button class="btn" id="start-btn-under-video">Start Game</button>
-    <button class="btn" id="sound-btn">Sound On</button>
     <p style="color:#fff6c9; margin-top:8px; font-size:0.95rem;">
       You can watch the video or press <b>Start Game</b> to begin immediately.
     </p>
@@ -76,6 +107,7 @@ h1 { font-size: 2.2rem; margin-bottom: 18px; color: gold; text-shadow: 1px 1px 4
 <!-- GAME SECTION -->
 <div class="game-wrap" id="game-section" style="display:none;">
   <div class="game-container" id="game-container">
+    <button class="btn" id="sound-btn">Sound On / Off</button>
     <p id="question-number">Question 1 of 30</p>
     <p id="question"></p>
     <div class="answers" id="answers"></div>
@@ -85,10 +117,13 @@ h1 { font-size: 2.2rem; margin-bottom: 18px; color: gold; text-shadow: 1px 1px 4
   </div>
 </div>
 
-<!-- BACKGROUND AUDIO -->
-<audio id="bg-music" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" loop></audio>
+<audio id="bg-music" preload="auto">
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
 
 <script>
+/* QUESTIONS ARRAY (30) */
 const questions = [
   { q: "Willy Wonka is famous for?", a: ["Chocolate","Cars","Books"], correct: "Chocolate" },
   { q: "Who finds the first golden ticket?", a: ["Veruca Salt","Augustus Gloop","Charlie Bucket"], correct: "Augustus Gloop" },
@@ -99,19 +134,37 @@ const questions = [
   { q: "Name of Charlie’s grandpa?", a: ["Grandpa Joe","Grandpa Bob","Grandpa John"], correct: "Grandpa Joe" },
   { q: "What is the prize at the end?", a: ["A car","The chocolate factory","A bag of sweets"], correct: "The chocolate factory" },
   { q: "Where does Willy Wonka live?", a: ["A city","A chocolate factory","A school"], correct: "A chocolate factory" },
-  { q: "Color of Willy Wonka’s hat?", a: ["Purple","Brown","Black"], correct: "Brown" }
-  // добавь оставшиеся до 30
+  { q: "Color of Willy Wonka’s hat?", a: ["Purple","Brown","Black"], correct: "Brown" },
+  { q: "Synonym of 'happy'?", a: ["Sad","Joyful","Hungry"], correct: "Joyful" },
+  { q: "Past tense of 'eat'?", a: ["Eated","Ate","Eaten"], correct: "Ate" },
+  { q: "Opposite of 'hot'?", a: ["Cold","Warm","Fire"], correct: "Cold" },
+  { q: "Oompa-Loompas are?", a: ["Machines","Workers","Candies"], correct: "Workers" },
+  { q: "Charlie found the ticket in a?", a: ["Shop","Chocolate bar","Mailbox"], correct: "Chocolate bar" },
+  { q: "Choose correct spelling:", a: ["Choclate","Chocolate","Chocolatte"], correct: "Chocolate" },
+  { q: "They ____ watching the movie now.", a: ["is","are","am"], correct: "are" },
+  { q: "He ____ to school every day.", a: ["go","goes","gone"], correct: "goes" },
+  { q: "I ____ seen that film.", a: ["has","have","had"], correct: "have" },
+  { q: "Charlie lives with?", a: ["Friends","Grandparents","Teachers"], correct: "Grandparents" },
+  { q: "Opposite of 'fast'?", a: ["Slow","Quick","Run"], correct: "Slow" },
+  { q: "Which word is a noun?", a: ["Run","Book","Quickly"], correct: "Book" },
+  { q: "Choose correct article: ___ apple", a: ["A","An","The"], correct: "An" },
+  { q: "Willy Wonka owns?", a: ["Toy shop","Chocolate factory","Bank"], correct: "Chocolate factory" },
+  { q: "Which candy is NOT real?", a: ["Everlasting Gobstopper","Chocolate Frog","Toffee Balloon"], correct: "Toffee Balloon" },
+  { q: "‘Sweet’ is opposite of?", a: ["Bitter","Sour","Soft"], correct: "Bitter" },
+  { q: "Which is correct?", a: ["She don't like chocolate","She doesn't like chocolate","She not likes chocolate"], correct: "She doesn't like chocolate" },
+  { q: "Meaning of 'factory'?", a: ["Place where things are made","School","Garden"], correct: "Place where things are made" },
+  { q: "Who got stuck in the chocolate pipe?", a: ["Charlie","Augustus Gloop","Veruca Salt"], correct: "Augustus Gloop" },
+  { q: "Plural of 'child'?", a: ["Childs","Children","Childes"], correct: "Children" }
 ];
 
 let currentQuestion = 0;
 let score = 0;
 let timer = null;
-let timeLeft = 30;
-const TOTAL = questions.length;
+let timeLeft = 20;
 
+const TOTAL = questions.length;
 const videoSection = document.getElementById('video-section');
 const startBtn = document.getElementById('start-btn-under-video');
-const soundBtn = document.getElementById('sound-btn');
 const gameSection = document.getElementById('game-section');
 const questionNumberEl = document.getElementById('question-number');
 const questionEl = document.getElementById('question');
@@ -121,36 +174,43 @@ const nextBtn = document.getElementById('next-btn');
 const scoreEl = document.getElementById('score');
 const gameContainer = document.getElementById('game-container');
 const bgMusic = document.getElementById('bg-music');
+const soundBtn = document.getElementById('sound-btn');
 
-let musicOn = true;
-soundBtn.addEventListener('click', () => {
-  if(musicOn){ bgMusic.pause(); musicOn=false; soundBtn.textContent="Sound Off"; }
-  else{ bgMusic.play(); musicOn=true; soundBtn.textContent="Sound On"; }
+let musicPlaying = false;
+
+/* SOUND BUTTON */
+soundBtn.addEventListener('click', ()=>{
+  if(musicPlaying){
+    bgMusic.pause();
+    musicPlaying = false;
+    soundBtn.textContent = "Sound On";
+  }else{
+    bgMusic.play();
+    musicPlaying = true;
+    soundBtn.textContent = "Sound Off";
+  }
 });
 
-startBtn.addEventListener('click', () => {
+/* START GAME BUTTON */
+startBtn.addEventListener('click', ()=>{
   videoSection.style.display='none';
   gameSection.style.display='block';
-  stopVideo();
+  bgMusic.currentTime = 0;
+  bgMusic.play();
+  musicPlaying = true;
+  soundBtn.textContent="Sound Off";
   startGame();
-  if(musicOn) bgMusic.play();
 });
 
-function stopVideo(){
-  const iframe = document.getElementById('intro-video');
-  iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}','*');
-}
-
 function startGame(){
-  score = 0;
-  currentQuestion = 0;
+  score=0; currentQuestion=0;
   scoreEl.style.display='none';
   showQuestion();
 }
 
 function showQuestion(){
   clearInterval(timer);
-  timeLeft = 30;
+  timeLeft = 20;
   const q = questions[currentQuestion];
   questionNumberEl.textContent = `Question ${currentQuestion+1} of ${TOTAL}`;
   questionEl.textContent = q.q;
@@ -158,13 +218,13 @@ function showQuestion(){
   q.a.forEach(opt=>{
     const b = document.createElement('button');
     b.className='answer-btn';
-    b.textContent=opt;
+    b.textContent = opt;
     b.onclick = ()=>handleAnswer(b,opt);
     answersEl.appendChild(b);
   });
   nextBtn.style.display='none';
   timerEl.textContent=`⏰ Time left: ${timeLeft}s`;
-  timer = setInterval(()=>{
+  timer=setInterval(()=>{
     timeLeft--;
     timerEl.textContent=`⏰ Time left: ${timeLeft}s`;
     if(timeLeft<=0){
@@ -184,14 +244,13 @@ function handleAnswer(btn, chosen){
     score++;
     showCoin();
     setTimeout(()=>alert("✅ Correct!"),100);
-  }else setTimeout(()=>alert(`❌ Wrong! Correct: ${correct}`),100);
+  }else{
+    setTimeout(()=>alert(`❌ Wrong! Correct: ${correct}`),100);
+  }
   nextBtn.style.display='inline-block';
 }
 
-function disableAnswers(){
-  Array.from(answersEl.children).forEach(b=>b.disabled=true);
-}
-
+function disableAnswers(){ Array.from(answersEl.children).forEach(b=>b.disabled=true); }
 nextBtn.addEventListener('click', ()=>{
   currentQuestion++;
   if(currentQuestion<TOTAL) showQuestion();
@@ -203,7 +262,8 @@ function showCoin(){
   coin.className='coin';
   coin.textContent='🍫';
   const rect = gameContainer.getBoundingClientRect();
-  coin.style.left = (Math.random()*70+10)+'%';
+  const leftPct = Math.random()*70+10;
+  coin.style.left = leftPct+'%';
   coin.style.top = (rect.height-50)+'px';
   gameContainer.appendChild(coin);
   setTimeout(()=>coin.remove(),900);
@@ -217,16 +277,20 @@ function endGame(){
   nextBtn.style.display='none';
   scoreEl.textContent=`🎉 You got ${score} out of ${TOTAL}!`;
   scoreEl.style.display='block';
-  const msg=document.createElement('p');
+  const msg = document.createElement('p');
   msg.style.marginTop='12px';
   msg.style.fontWeight='700';
   msg.style.color='#fff6c9';
   msg.textContent='✅ You have completed the game! Thank you for playing!';
   gameContainer.appendChild(msg);
+  if(bgMusic && !bgMusic.paused){ bgMusic.pause(); bgMusic.currentTime=0; }
+  if(videoSection) videoSection.remove();
 }
 </script>
 </body>
 </html>
+
+
 
 
 
