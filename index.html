@@ -58,14 +58,11 @@
     }
 
     #timer {
-      font-size: 1.2em;
-      color: #ffeb3b;
-      margin-top: 10px;
+      font-weight: bold;
+      color: #fffae3;
+      margin-bottom: 10px;
     }
 
-    .emoji {
-      font-size: 2em;
-    }
   </style>
 </head>
 <body>
@@ -74,16 +71,16 @@
   <div id="game-container">
     <div id="intro">
       <p>Welcome to Willy Wonka’s Factory! 🎩<br>
-      Answer the English questions correctly before time runs out to earn chocolate coins! 🍬</p>
+      Answer the English questions correctly to move through the factory and earn chocolate coins! 🍬</p>
       <button onclick="startGame()">Start Game</button>
     </div>
 
     <div id="question-box" class="hidden">
       <h2 id="room-title"></h2>
+      <p id="timer"></p>
       <p id="question-text"></p>
       <div id="options"></div>
       <p id="feedback"></p>
-      <p id="timer">⏱️ Time left: 20s</p>
       <p id="score">Score: 0 🍫</p>
     </div>
 
@@ -97,46 +94,36 @@
 
   <script>
     const questions = [
-      {
-        room: "Entrance Hall – Vocabulary",
-        question: "What word best describes Willy Wonka’s personality?",
-        options: ["Boring", "Mysterious", "Lazy", "Serious"],
-        correct: 1
-      },
-      {
-        room: "Candy Garden – Grammar",
-        question: "If Charlie ____ the factory, he will become its owner.",
-        options: ["visits", "visited", "visiting", "visit"],
-        correct: 0
-      },
-      {
-        room: "Inventing Room – Tenses",
-        question: "Willy Wonka has been making chocolate for many years. Which tense is used here?",
-        options: ["Past Simple", "Present Perfect Continuous", "Future Perfect", "Present Continuous"],
-        correct: 1
-      },
-      {
-        room: "Chocolate River Room – Reading",
-        question: "Why was Augustus Gloop punished?",
-        options: [
-          "He tried to steal a candy recipe.",
-          "He fell into the chocolate river because of his greed.",
-          "He broke the elevator.",
-          "He ate the golden ticket."
-        ],
-        correct: 1
-      },
-      {
-        room: "Great Glass Elevator – Final Challenge",
-        question: "Which sentence is grammatically correct?",
-        options: [
-          "Charlie never forgets how kindness change lives.",
-          "Charlie never forgot how kindness changes lives.",
-          "Charlie never forgets how kindness changes lives.",
-          "Charlie never forgetting how kindness changes lives."
-        ],
-        correct: 2
-      }
+      { room: "Entrance Hall", question: "Willy Wonka is a famous ____.", options: ["musician", "inventor", "doctor", "painter"], correct: 1 },
+      { room: "Candy Garden", question: "If Charlie ____ the ticket, he will visit the factory.", options: ["find", "finding", "found", "finds"], correct: 3 },
+      { room: "Chocolate River", question: "The Chocolate River is made of:", options: ["milk", "caramel", "real chocolate", "juice"], correct: 2 },
+      { room: "Grammar Room", question: "Choose the correct sentence:", options: ["Chocolate he loves very much.", "He loves chocolate very much.", "He very chocolate loves.", "Loves he chocolate."], correct: 1 },
+      { room: "Vocabulary Room", question: "Synonym of 'happy' is:", options: ["sad", "joyful", "angry", "hungry"], correct: 1 },
+      { room: "Inventing Room", question: "The past tense of 'eat' is ____.", options: ["eated", "ate", "eaten", "eats"], correct: 1 },
+      { room: "Candy Lab", question: "Which word means 'opposite of hot'?", options: ["cold", "cool", "warm", "fire"], correct: 0 },
+      { room: "Oompa-Loompa Room", question: "What are Oompa-Loompas?", options: ["Machines", "Workers", "Candies", "Animals"], correct: 1 },
+      { room: "Reading Room", question: "Charlie found the ticket in a:", options: ["shop", "bar of chocolate", "mailbox", "newspaper"], correct: 1 },
+      { room: "Spelling Room", question: "Choose the correct spelling:", options: ["choclate", "chocolate", "chocolatte", "chocelate"], correct: 1 },
+      { room: "Grammar Room 2", question: "They ____ watching the movie now.", options: ["is", "are", "am", "be"], correct: 1 },
+      { room: "Grammar Room 3", question: "He ____ to school every day.", options: ["go", "goes", "gone", "going"], correct: 1 },
+      { room: "Grammar Room 4", question: "I ____ seen that film.", options: ["has", "had", "have", "having"], correct: 2 },
+      { room: "Reading Room 2", question: "Charlie lives with his ____.", options: ["friends", "grandparents", "teachers", "pets"], correct: 1 },
+      { room: "Vocabulary 2", question: "Opposite of 'fast' is ____.", options: ["slow", "quick", "speed", "run"], correct: 0 },
+      { room: "Vocabulary 3", question: "Which word is a noun?", options: ["run", "beautiful", "book", "quickly"], correct: 2 },
+      { room: "Grammar Room 5", question: "Choose the correct article: ___ apple.", options: ["a", "an", "the", "no article"], correct: 1 },
+      { room: "Reading Room 3", question: "Willy Wonka owns a ____.", options: ["toy shop", "chocolate factory", "museum", "bank"], correct: 1 },
+      { room: "Candy Quiz", question: "Which candy is NOT real?", options: ["Everlasting Gobstopper", "Chocolate Frog", "Rainbow Sugar Drop", "Toffee Balloon"], correct: 3 },
+      { room: "Vocabulary 4", question: "‘Sweet’ is the opposite of:", options: ["bitter", "soft", "sour", "cold"], correct: 0 },
+      { room: "Grammar Room 6", question: "Which is correct?", options: ["She don’t like chocolate.", "She doesn’t like chocolate.", "She not likes chocolate.", "She didn’t likes chocolate."], correct: 1 },
+      { room: "Vocabulary 5", question: "Meaning of 'factory' is:", options: ["place where things are made", "place where food is eaten", "school", "garden"], correct: 0 },
+      { room: "Reading 4", question: "Who got stuck in the chocolate pipe?", options: ["Charlie", "Augustus Gloop", "Veruca Salt", "Mike Teavee"], correct: 1 },
+      { room: "Spelling 2", question: "Choose correct spelling:", options: ["becaus", "because", "becouse", "becose"], correct: 1 },
+      { room: "Grammar 7", question: "He ____ his homework already.", options: ["did", "has done", "do", "done"], correct: 1 },
+      { room: "Vocabulary 6", question: "Synonym of 'clever' is:", options: ["smart", "silly", "lazy", "weak"], correct: 0 },
+      { room: "Grammar 8", question: "There ____ many people in the room.", options: ["is", "are", "was", "be"], correct: 1 },
+      { room: "Final Room", question: "Charlie won ____.", options: ["money", "a golden ticket", "the chocolate factory", "a car"], correct: 2 },
+      { room: "Bonus Question", question: "What is the plural of ‘child’?", options: ["childs", "children", "childes", "childer"], correct: 1 },
+      { room: "Final Challenge", question: "If I were you, I ____ go.", options: ["will", "would", "can", "am"], correct: 1 }
     ];
 
     let currentQuestion = 0;
@@ -147,6 +134,8 @@
     function startGame() {
       document.getElementById("intro").classList.add("hidden");
       document.getElementById("question-box").classList.remove("hidden");
+      score = 0;
+      currentQuestion = 0;
       showQuestion();
     }
 
@@ -154,6 +143,7 @@
       const q = questions[currentQuestion];
       document.getElementById("room-title").innerText = q.room;
       document.getElementById("question-text").innerText = q.question;
+      document.getElementById("feedback").innerText = "";
 
       const optionsDiv = document.getElementById("options");
       optionsDiv.innerHTML = "";
@@ -164,52 +154,44 @@
         optionsDiv.appendChild(btn);
       });
 
-      document.getElementById("feedback").innerText = "";
-      resetTimer();
+      timeLeft = 20;
+      document.getElementById("timer").innerText = `⏰ Time left: ${timeLeft}s`;
+      clearInterval(timer);
+      timer = setInterval(updateTimer, 1000);
     }
 
-    function resetTimer() {
-      clearInterval(timer);
-      timeLeft = 20;
-      document.getElementById("timer").innerText = `⏱️ Time left: ${timeLeft}s`;
-      timer = setInterval(() => {
-        timeLeft--;
-        document.getElementById("timer").innerText = `⏱️ Time left: ${timeLeft}s`;
-        if (timeLeft <= 0) {
-          clearInterval(timer);
-          document.getElementById("feedback").innerHTML = "⌛ Time’s up! Moving to next room...";
-          nextQuestion();
-        }
-      }, 1000);
+    function updateTimer() {
+      timeLeft--;
+      document.getElementById("timer").innerText = `⏰ Time left: ${timeLeft}s`;
+      if (timeLeft <= 0) {
+        clearInterval(timer);
+        currentQuestion++;
+        if (currentQuestion < questions.length) showQuestion();
+        else endGame();
+      }
     }
 
     function checkAnswer(selected) {
-      clearInterval(timer);
       const q = questions[currentQuestion];
       const feedback = document.getElementById("feedback");
-
       if (selected === q.correct) {
         score++;
         feedback.innerHTML = "✅ Correct! You earned a chocolate coin! 🍫";
       } else {
-        feedback.innerHTML = "❌ Oops! That’s not right!";
+        feedback.innerHTML = "❌ Oops! Wrong answer!";
       }
 
       document.getElementById("score").innerText = `Score: ${score} 🍫`;
-      setTimeout(nextQuestion, 1500);
-    }
-
-    function nextQuestion() {
+      clearInterval(timer);
       currentQuestion++;
       if (currentQuestion < questions.length) {
-        showQuestion();
+        setTimeout(showQuestion, 1500);
       } else {
-        endGame();
+        setTimeout(endGame, 1500);
       }
     }
 
     function endGame() {
-      clearInterval(timer);
       document.getElementById("question-box").classList.add("hidden");
       document.getElementById("end-screen").classList.remove("hidden");
       document.getElementById("final-score").innerText =
@@ -228,3 +210,5 @@
   </script>
 </body>
 </html>
+
+
