@@ -15,92 +15,38 @@
   }
   h1 { font-size: 2.2rem; margin-bottom: 18px; color: gold; text-shadow: 1px 1px 4px #000; }
 
-  .video-wrap, .game-wrap {
-    max-width: 760px;
-    margin: 0 auto 18px;
-  }
-  .video-frame {
-    width: 100%;
-    height: 360px;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.4);
-    background: #000;
-  }
-  .starter {
-    background: rgba(255,255,255,0.08);
-    padding: 18px;
-    border-radius: 12px;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.35);
-  }
-  .btn {
-    background-color: #8b4513;
-    color: #fff;
-    border: none;
-    padding: 12px 22px;
-    border-radius: 12px;
-    font-size: 1rem;
-    cursor: pointer;
-    margin-top: 12px;
-  }
+  .video-wrap, .game-wrap { max-width: 760px; margin: 0 auto 18px; }
+  .video-frame { width: 100%; height: 360px; border-radius: 10px; overflow: hidden; box-shadow: 0 6px 20px rgba(0,0,0,0.4); background: #000; }
+  .starter { background: rgba(255,255,255,0.08); padding: 18px; border-radius: 12px; box-shadow: 0 6px 18px rgba(0,0,0,0.35); }
+  .btn { background-color: #8b4513; color: #fff; border: none; padding: 12px 22px; border-radius: 12px; font-size: 1rem; cursor: pointer; margin-top: 12px; }
   .btn:hover { background-color: #a05524; transform: translateY(-2px); }
-
-  .game-container {
-    background: rgba(255,255,255,0.08);
-    padding: 22px;
-    border-radius: 12px;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.35);
-  }
+  .game-container { background: rgba(255,255,255,0.08); padding: 22px; border-radius: 12px; box-shadow: 0 6px 18px rgba(0,0,0,0.35); }
   #question-number { font-weight: 600; color: #ffeb99; }
   #question { font-size: 1.1rem; margin: 14px 0; }
   .answers { display:flex; flex-direction:column; gap:10px; align-items:center; }
-  .answer-btn {
-    background:#ffdf9b; color:#4b2e05; border:none; padding:10px 18px; border-radius:10px; cursor:pointer; width:90%;
-    max-width:520px; font-size:1rem;
-  }
+  .answer-btn { background:#ffdf9b; color:#4b2e05; border:none; padding:10px 18px; border-radius:10px; cursor:pointer; width:90%; max-width:520px; font-size:1rem; }
   .answer-btn:disabled { opacity:0.6; cursor:default; }
   #timer { margin-top:10px; font-weight:700; color:#fff6c9; }
   #score { font-weight:700; color:#ffd700; margin-top:12px; }
-  .coin {
-    position: absolute;
-    font-size: 2rem;
-    pointer-events: none;
-    animation: floatCoin 900ms ease-out forwards;
-  }
-  @keyframes floatCoin {
-    0% { transform: translateY(0) scale(1); opacity:1; }
-    100% { transform: translateY(-70px) scale(0.9); opacity:0; }
-  }
-  @media (max-width:600px){
-    .video-frame { height: 210px; }
-    .answer-btn { font-size: 0.95rem; }
-  }
+  .coin { position: absolute; font-size: 2rem; pointer-events: none; animation: floatCoin 900ms ease-out forwards; }
+  @keyframes floatCoin { 0% { transform: translateY(0) scale(1); opacity:1; } 100% { transform: translateY(-70px) scale(0.9); opacity:0; } }
+  @media (max-width:600px){ .video-frame { height: 210px; } .answer-btn { font-size: 0.95rem; } }
 </style>
 </head>
 <body>
 <h1>🍫 The Golden Ticket English Adventure 🍭</h1>
 
-<!-- VIDEO SECTION -->
 <div class="video-wrap starter" id="video-section">
   <div class="video-frame">
-    <iframe id="intro-video"
-      width="100%" height="100%"
-      src="https://www.youtube.com/embed/wcdBCanllNA"
-      title="Intro Video"
-      frameborder="0"
-      allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-      allowfullscreen></iframe>
+    <iframe id="intro-video" width="100%" height="100%" src="https://www.youtube.com/embed/wcdBCanllNA" title="Intro Video" frameborder="0" allowfullscreen></iframe>
   </div>
   <div style="margin-top:12px;">
     <button class="btn" id="start-btn-under-video">Start Game</button>
     <button class="btn" id="sound-toggle">Sound On / Off</button>
-    <p style="color:#fff6c9; margin-top:8px; font-size:0.95rem;">
-      Watch the video or press <b>Start Game</b> to begin immediately.
-    </p>
+    <p style="color:#fff6c9; margin-top:8px; font-size:0.95rem;">Watch the video or press <b>Start Game</b> to begin immediately.</p>
   </div>
 </div>
 
-<!-- GAME SECTION -->
 <div class="game-wrap" id="game-section" style="display:none;">
   <div class="game-container" id="game-container">
     <p id="question-number">Question 1 of 30</p>
@@ -112,11 +58,9 @@
   </div>
 </div>
 
-<!-- Background music -->
 <audio id="bg-music" preload="none" src="https://www.youtube.com/watch?v=5qm8PH4xAss&list=RD5qm8PH4xAss&start_radio=1&pp=ygUHNTAgY2VudKAHAQ%3D%3D"></audio>
 
 <script>
-/* ===== QUESTIONS (30) ===== */
 const questions = [
   { q: "Willy Wonka is famous for?", a: ["Chocolate","Cars","Books"], correct: "Chocolate" },
   { q: "Who finds the first golden ticket?", a: ["Veruca Salt","Augustus Gloop","Charlie Bucket"], correct: "Augustus Gloop" },
@@ -150,14 +94,12 @@ const questions = [
   { q: "Plural of 'child'?", a: ["Childs","Children","Childes"], correct: "Children" }
 ];
 
-/* ===== STATE ===== */
 let currentQuestion = 0;
 let score = 0;
 let timer = null;
-let timeLeft = 30; // 30 seconds
+let timeLeft = 30;
 const TOTAL = questions.length;
 
-/* ===== ELEMENTS ===== */
 const videoSection = document.getElementById('video-section');
 const startBtnUnderVideo = document.getElementById('start-btn-under-video');
 const soundToggle = document.getElementById('sound-toggle');
@@ -171,66 +113,52 @@ const scoreEl = document.getElementById('score');
 const gameContainer = document.getElementById('game-container');
 const bgMusic = document.getElementById('bg-music');
 
-/* ===== SOUND TOGGLE ===== */
 let musicPlaying = false;
 soundToggle.addEventListener('click', ()=>{
   if(bgMusic.src){
-    if(musicPlaying){ bgMusic.pause(); musicPlaying=false; soundToggle.textContent='Sound On / Off'; }
-    else { bgMusic.play().catch(()=>{}); musicPlaying=true; soundToggle.textContent='Sound On / Off'; }
+    if(musicPlaying){ bgMusic.pause(); musicPlaying=false; }
+    else { bgMusic.play().catch(()=>{}); musicPlaying=true; }
   }
 });
 
-/* ===== START GAME ===== */
-startBtnUnderVideo.addEventListener('click', () => {
-  videoSection.style.display = 'none';
-  gameSection.style.display = 'block';
-  // stop video
+startBtnUnderVideo.addEventListener('click', ()=>{
+  videoSection.style.display='none';
+  gameSection.style.display='block';
   const iframe = document.getElementById('intro-video');
-  iframe.src = iframe.src; 
+  iframe.src = iframe.src; // stop video
   if(bgMusic.src){ bgMusic.currentTime=0; bgMusic.play().catch(()=>{}); musicPlaying=true; }
   startGame();
 });
 
-/* ===== GAME FUNCTIONS ===== */
-function startGame(){
-  score = 0;
-  currentQuestion = 0;
-  scoreEl.style.display = 'none';
-  showQuestion();
-}
+function startGame(){ score=0; currentQuestion=0; scoreEl.style.display='none'; showQuestion(); }
 
 function showQuestion(){
   clearInterval(timer);
-  timeLeft = 30;
+  timeLeft=30;
   const q = questions[currentQuestion];
-  questionNumberEl.textContent = `Question ${currentQuestion + 1} of ${TOTAL}`;
-  questionEl.textContent = q.q;
-  answersEl.innerHTML = '';
-  q.a.forEach(opt => {
-    const b = document.createElement('button');
-    b.className = 'answer-btn';
-    b.textContent = opt;
-    b.onclick = () => handleAnswer(b,opt);
+  questionNumberEl.textContent=`Question ${currentQuestion+1} of ${TOTAL}`;
+  questionEl.textContent=q.q;
+  answersEl.innerHTML='';
+  q.a.forEach(opt=>{
+    const b=document.createElement('button');
+    b.className='answer-btn';
+    b.textContent=opt;
+    b.onclick=()=>handleAnswer(b,opt);
     answersEl.appendChild(b);
   });
   nextBtn.style.display='none';
-  timerEl.textContent = `⏰ Time left: ${timeLeft}s`;
-  timer = setInterval(()=>{
+  timerEl.textContent=`⏰ Time left: ${timeLeft}s`;
+  timer=setInterval(()=>{
     timeLeft--;
-    timerEl.textContent = `⏰ Time left: ${timeLeft}s`;
-    if(timeLeft<=0){
-      clearInterval(timer);
-      disableAnswers();
-      nextBtn.style.display='inline-block';
-      alert("⏳ Time's up!");
-    }
+    timerEl.textContent=`⏰ Time left: ${timeLeft}s`;
+    if(timeLeft<=0){ clearInterval(timer); disableAnswers(); nextBtn.style.display='inline-block'; alert("⏳ Time's up!"); }
   },1000);
 }
 
 function handleAnswer(btn, chosen){
   clearInterval(timer);
   disableAnswers();
-  const correct = questions[currentQuestion].correct;
+  const correct=questions[currentQuestion].correct;
   if(chosen===correct){ score++; showCoin(); setTimeout(()=>alert("✅ Correct!"),100); }
   else { setTimeout(()=>alert(`❌ Wrong! Correct: ${correct}`),100); }
   nextBtn.style.display='inline-block';
@@ -245,13 +173,13 @@ nextBtn.addEventListener('click', ()=>{
 });
 
 function showCoin(){
-  const coin = document.createElement('div');
+  const coin=document.createElement('div');
   coin.className='coin';
   coin.textContent='🍫';
-  const rect = gameContainer.getBoundingClientRect();
-  const leftPct = Math.random()*70+10;
-  coin.style.left = leftPct+'%';
-  coin.style.top = (rect.height-50)+'px';
+  const rect=gameContainer.getBoundingClientRect();
+  const leftPct=Math.random()*70+10;
+  coin.style.left=leftPct+'%';
+  coin.style.top=(rect.height-50)+'px';
   gameContainer.appendChild(coin);
   setTimeout(()=>coin.remove(),900);
 }
@@ -262,10 +190,10 @@ function endGame(){
   answersEl.innerHTML='';
   timerEl.textContent='';
   nextBtn.style.display='none';
-  scoreEl.textContent = `🎉 You got ${score} out of ${TOTAL}!`;
+  scoreEl.textContent=`🎉 You got ${score} out of ${TOTAL}!`;
   scoreEl.style.display='block';
   if(bgMusic && !bgMusic.paused){ try{bgMusic.pause(); bgMusic.currentTime=0;}catch(e){} }
-  const msg = document.createElement('p');
+  const msg=document.createElement('p');
   msg.style.marginTop='12px';
   msg.style.fontWeight='700';
   msg.style.color='#fff6c9';
